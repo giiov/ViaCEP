@@ -55,7 +55,7 @@ const HandleSearch = ({
   }
 
   return (
-    <Button title="Procurar" color="green" onPress={handleSearch}> Pesquisar
+    <Button title="Procurar" color="#064663" onPress={handleSearch}> Pesquisar
 </Button>
   )
 };

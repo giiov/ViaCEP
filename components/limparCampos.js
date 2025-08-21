@@ -19,7 +19,7 @@ const LimparCampos = ({
   }
  
 return (
-    <Button title="Limpar" color="red" onPress={limparCampos}> Limpar:
+    <Button title="Limpar" color="#922B21" onPress={limparCampos}> Limpar:
 </Button>
   )
  

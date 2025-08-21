@@ -43,7 +43,7 @@ export const VerHistorico = ({
 }
 
 return (
-   <Button title="Ver Histórico" onPress={verHistorico} />
+   <Button title="Ver Histórico" color="#064663" onPress={verHistorico} />
   )
 
 };
@@ -63,5 +63,5 @@ export const LimparHistorico = ({ setHistorico, setError, setBotao }) => {
     }
   };
 
-  return <Button title="Limpar Histórico" onPress={limparHistorico} />;
+  return <Button title="Limpar Histórico" color="#922B21" onPress={limparHistorico} />;
 };

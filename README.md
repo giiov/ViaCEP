@@ -14,4 +14,4 @@ Aplicação mobile para consulta e validação de CEPs, utilizando a API públic
 
 ## ▶️
 Você pode acessar o projeto diretamente no Expo Snack:
-🔗 [Abrir no Snack](https://snack.expo.dev/)
+🔗 [Abrir no Snack](https://snack.expo.dev/@giov/448141/)
