@@ -11,7 +11,7 @@ import {
 // Importando os componentes
 import HandleSearch from './components/handleSearch';
 import LimparCampos from './components/LimparCampos';
-import {salvandoDados, VerHistorico} from './components/verHistorico';
+import { salvandoDados, VerHistorico, LimparHistorico } from './components/verHistorico';
 
 const App = () => {
   // Estados para armazenar os dados da API e controlar os inputs
