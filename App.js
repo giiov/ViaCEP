@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   ScrollView,
   StyleSheet,
   TextInput,
-  Button,
-  AsyncStorage
+  Button
 } from 'react-native';
+
+// Importando os componentes
+import HandleSearch from './components/handleSearch';
+import LimparCampos from './components/LimparCampos';
+import {salvandoDados, VerHistorico} from './components/verHistorico';
 
 const App = () => {
   // Estados para armazenar os dados da API e controlar os inputs
@@ -18,46 +22,15 @@ const App = () => {
   const [uf, setUf] = useState ('');
   const [localidade, setLocalidade] = useState ('');
   const [logradouro, setLogradouro] = useState ('');
+  const [historico, setHistorico] = useState([]);
 
-  // Função chamada ao clicar no botão "Procurar"
-  const handleSearch = async () => {
-    // Verifica se o campo de CEP foi preenchido
-    if (!cep && (!uf || !localidade || !logradouro)) {
-      setError({ message: 'Informe um CEP válido!' });
-      setData(null);
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-
-    try {
-      let url = '';
-    if (cep) {
-      // Busca por CEP
-      url = `https://viacep.com.br/ws/${cep}/json/`;
-    } else if (uf && localidade && logradouro) {
-      // Busca por endereço completo
-      url = `https://viacep.com.br/ws/${uf}/${localidade}/${logradouro}/json/`;
-    }
-
-    const resposta = await fetch(url);
-    const json = await resposta.json();
-
-      // Se o CEP não existir, a API retorna um campo "erro: true"
-      if (json.erro || json.lenght === 0) {
-        setError({ message: 'CEP não encontrado!' });
-        setData(null);
-      } else {
-        setData(Array.isArray(json) ? json[0] : json);
-      }
-    } catch (err) {
-      setError(err); // Captura erro de rede ou falha na requisição
-      setData(null);
-    } finally {
-      setLoading(false); // Finaliza o carregamento
-    }
-  };
+  // Função para preencher os campos
+  const preencherCampos = (item) => {
+    setCep(item.cep);
+    setUf(item.uf);
+    setLocalidade(item.localidade);
+    setLogradouro(item.logradouro);
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -103,12 +76,30 @@ const App = () => {
           onChangeText={setLogradouro}
         />
 
-<View styles={styles.botao}>
-        {/* Botão de busca */}
-        <Button title="Procurar" color="royalblue" onPress={handleSearch} />
-        <Button title="Limpar" color="red" />
+<View style={styles.botao}>
+          <HandleSearch
+            cep={cep}
+            uf={uf}
+            localidade={localidade}
+            logradouro={logradouro}
+            setError={setError}
+            setData={setData}
+            setLoading={setLoading}
+            salvandoDados={salvandoDados}
+            onPress={salvandoDados}
+          />
+          <LimparCampos
+              setCep={setCep}
+              setUf={setUf}
+              setLocalidade={setLocalidade}
+              setLogradouro={setLogradouro}
+              setData={setData}
+          />
+          <VerHistorico
+            setHistorico={setHistorico}
+            setError={setError}
+          />
 </View>
-      </View>
 
       {/* Exibe mensagem de erro se houver */}
       {error && (
@@ -136,6 +127,24 @@ const App = () => {
           <Text>CEP: {data.cep}</Text>
         </View>
       )}
+
+      {historico.length > 0 && (
+  <View style={styles.localContainer}>
+    <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>Histórico de Pesquisas:</Text>
+    {historico.map((item, index) => (
+      <View key={index} style={{ marginBottom: 10, padding: 10, borderWidth: 1, borderRadius: 5 }}>
+        <Text onPress={() => preencherCampos(item)}>CEP: {item.cep}</Text>
+<Text onPress={() => preencherCampos(item)}>Logradouro: {item.logradouro}</Text>
+<Text onPress={() => preencherCampos(item)}>Bairro: {item.bairro}</Text>
+<Text onPress={() => preencherCampos(item)}>Cidade: {item.localidade}</Text>
+<Text onPress={() => preencherCampos(item)}>Estado: {item.uf}</Text>
+<Text onPress={() => preencherCampos(item)}>DDD: {item.ddd}</Text>
+
+      </View>
+    ))}
+  </View>
+)}
+</View>
     </ScrollView>
   );
 };
@@ -168,7 +177,7 @@ const styles = StyleSheet.create({
   },
 
   localContainer: {
-    marginLeft: 30,
+    marginLeft: 10,
     marginRight: 30,
     marginTop: 20,
   },
@@ -180,8 +189,9 @@ const styles = StyleSheet.create({
 
   botao: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
+    gap: 10,
   },
 });
 
-export default App;
+export default App;q
