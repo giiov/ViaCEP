@@ -23,6 +23,7 @@ const App = () => {
   const [localidade, setLocalidade] = useState ('');
   const [logradouro, setLogradouro] = useState ('');
   const [historico, setHistorico] = useState([]);
+  const [botao, setBotao] = useState(false); //adicionar estado para o botão
 
   // Função para preencher os campos
   const preencherCampos = (item) => {
@@ -98,7 +99,16 @@ const App = () => {
           <VerHistorico
             setHistorico={setHistorico}
             setError={setError}
+            setBotao={setBotao}
           />
+
+              {botao && (
+            <LimparHistorico
+            setHistorico={setHistorico}
+            setError={setError}
+            setBotao={setBotao}
+            />
+            )} 
 </View>
 
       {/* Exibe mensagem de erro se houver */}
