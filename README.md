@@ -11,3 +11,7 @@ Aplicação mobile para consulta e validação de CEPs, utilizando a API públic
 - React Native;
 - JavaScript;
 - API ViaCEP.
+
+## ▶️
+Você pode acessar o projeto diretamente no Expo Snack:
+🔗 [Abrir no Snack](https://snack.expo.dev/)
