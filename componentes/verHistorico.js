@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button} from '@rneui/themed';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const salvandoDados = async (novaPesquisa) => {
   try {
@@ -17,7 +18,8 @@ export const salvandoDados = async (novaPesquisa) => {
 
 export const VerHistorico = ({
   setHistorico,
-  setError
+  setError,
+  setBotao
 }) => {
   const verHistorico = async () => {
   try {
@@ -26,20 +28,40 @@ export const VerHistorico = ({
       const lista = JSON.parse(jsonValue);
       setHistorico(lista.reverse()); // mostra da mais recente à mais antiga
       setError(null);
+      setBotao(true);
     } else {
       setError({ message: 'Nenhuma pesquisa anterior encontrada.' });
       setHistorico([]);
+      setBotao(false) // função do botão de limpar hisórico
     }
   } catch (e) {
     console.error('Erro ao recuperar histórico:', e);
     setError({ message: 'Erro ao recuperar histórico.' });
     setHistorico([]);
+    setBotao(false);
   }
 }
 
 return (
-    <Button title="Historico" color="green" onPress={verHistorico}> Histórico
-</Button>
+   <Button title="Ver Histórico" onPress={verHistorico} />
   )
 
+};
+
+
+export const LimparHistorico = ({ setHistorico, setError, setBotao }) => {
+  const limparHistorico = async () => {
+    try {
+      await AsyncStorage.removeItem('@historico_pesquisas');
+      setHistorico([]);
+      setError(null);
+      setBotao(false);
+      console.log('Histórico apagado');
+    } catch (e) {
+      console.error('Erro ao limpar histórico', e);
+      setError({ message: 'Erro ao limpar o histórico' });
+    }
+  };
+
+  return <Button title="Limpar Histórico" onPress={limparHistorico} />;
 };
