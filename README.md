@@ -15,7 +15,7 @@ Aplicação mobile para consulta e validação de CEPs, utilizando a API públic
 
 ## ▶️ Acessar o Projeto
 Você pode acessar o projeto diretamente no Expo Snack:
-🔗 [Abrir no Snack](https://snack.expo.dev/@giov/viacep)
+🔗 [Abrir no Snack](https://snack.expo.dev/@bruno.hlnd/448141)
 
 
 
