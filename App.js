@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Ionicons } from '@expo/vector-icons';
 import {
   View,
   Text,
@@ -37,8 +38,11 @@ const App = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.forms}>
-        <Text style={styles.title}>Consulta de CEP</Text>
-
+        <View style={{  alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
+          <Ionicons name="location-sharp" size={25} color="#922B21" style={{ marginRight: 8 }} />
+            <Text style={styles.title}>Consulta de CEP</Text>
+            <View style={styles.titleLine}/>
+        </View>
         {/* Campo de entrada do CEP */}
         <TextInput
           style={styles.input}
@@ -53,7 +57,7 @@ const App = () => {
         
         <TextInput
           style={styles.input}
-          placeholder="Digite o UF"
+          placeholder="Digite a UF"
           placeholderTextColor="gray"
           keyboardType="text"
           value={uf}
