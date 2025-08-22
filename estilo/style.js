@@ -9,11 +9,20 @@ export const styles = StyleSheet.create({
 
   title: {
     textAlign: 'center',
-    margin: 10,
-    fontSize: 30,
+    marginBottom: 10,
+    fontSize: 28,
     fontWeight: 'bold',
     color: '#922B21',
   },
+
+  titleLine: {
+  width: 80,
+  height: 3,
+  backgroundColor: "#922B21",
+  alignSelf: "center",
+  borderRadius: 2,
+  marginBottom: 20,
+},
 
   forms: {
     margin: 30,
@@ -21,10 +30,11 @@ export const styles = StyleSheet.create({
 
   input: {
     height: 40,
-    marginBottom: 10,
+    marginBottom: 15,
     borderWidth: 1,
-    borderRadius: 3,
+    borderRadius: 8,
     padding: 10,
+    color:'#2C3E50',
   },
 
   localContainer: {
@@ -34,7 +44,7 @@ export const styles = StyleSheet.create({
   },
 
   localLogradouro: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
   },
 
@@ -43,4 +53,5 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 10,
   },
+
 });
