@@ -1,7 +1,6 @@
 import React from 'react';
-import {Button} from '@rneui/themed';
+import { Button } from '@rneui/themed';
 
-// Colocar no slide
 const HandleSearch = ({
   cep,
   uf,
@@ -12,10 +11,7 @@ const HandleSearch = ({
   setLoading,
   salvandoDados
 }) => {
-  
-  // Função chamada ao clicar no botão "Procurar"
   const handleSearch = async () => {
-    // Verifica se o campo de CEP foi preenchido
     if (!cep && (!uf || !localidade || !logradouro)) {
       setError({ message: 'Informe um CEP válido!' });
       setData(null);
@@ -27,37 +23,36 @@ const HandleSearch = ({
 
     try {
       let url = '';
-    if (cep) {
-      // Busca por CEP
-      url = `https://viacep.com.br/ws/${cep}/json/`;
-    } else if (uf && localidade && logradouro) {
-      // Busca por endereço completo
-      url = `https://viacep.com.br/ws/${uf}/${localidade}/${logradouro}/json/`;
-    }
+      if (cep) {
+        url = `https://viacep.com.br/ws/${cep}/json/`;
+      } else {
+        url = `https://viacep.com.br/ws/${uf}/${localidade}/${logradouro}/json/`;
+      }
 
-    const resposta = await fetch(url);
-    const json = await resposta.json();
+      const resposta = await fetch(url);
+      const json = await resposta.json();
 
-      // Se o CEP não existir, a API retorna um campo "erro: true"
-      if (json.erro || json.lenght === 0) {
+      if (!json || json.erro || (Array.isArray(json) && json.length === 0)) {
         setError({ message: 'CEP não encontrado!' });
         setData(null);
       } else {
-        setData(Array.isArray(json) ? json[0] : json);
-        salvandoDados(Array.isArray(json) ? json[0] : json);
+        const resultado = Array.isArray(json) ? json : [json];
+        setData(resultado);
+        salvandoDados(resultado);
       }
     } catch (err) {
-      setError(err); // Captura erro de rede ou falha na requisição
+      setError({ message: 'Erro na requisição. Tente novamente.' });
       setData(null);
     } finally {
-      setLoading(false); // Finaliza o carregamento
+      setLoading(false);
     }
-  }
+  };
 
   return (
-    <Button title="Procurar" color="#922B21" onPress={handleSearch}> Pesquisar
-</Button>
-  )
+    <Button title="Pesquisar" color="#922B21" onPress={handleSearch}>
+      Pesquisar
+    </Button>
+  );
 };
 
 export default HandleSearch;
