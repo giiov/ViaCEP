@@ -138,17 +138,15 @@ const App = () => {
       )}
 
       {/* Exibe os dados obtidos da API ViaCEP */}
-      {data && !loading && (
-        <View style={styles.localContainer}>
-          <Text style={styles.localLogradouro}>
-          Logradouro: {data.logradouro}</Text>
-          <Text>Bairro: {data.bairro}</Text>
-          <Text>Cidade: {data.localidade}</Text>
-          <Text>Estado: {data.uf}</Text>
-          <Text>DDD: {data.ddd}</Text>
-          <Text>CEP: {data.cep}</Text>
-        </View>
-      )}
+      {data && data.map((item, index) => (
+  <View key={index} style={{ marginBottom: 10 }}>
+    <Text>CEP: {item.cep}</Text>
+    <Text>Logradouro: {item.logradouro}</Text>
+    <Text>Bairro: {item.bairro}</Text>
+    <Text>Cidade: {item.localidade}</Text>
+    <Text>UF: {item.uf}</Text>
+  </View>
+))}
 
       {/* Exibe os dados das pesquisas anteriores (histórico) */}
       {historico.length > 0 && (
@@ -171,5 +169,6 @@ const App = () => {
     </ScrollView>
   );
 };
+
 
 export default App;
