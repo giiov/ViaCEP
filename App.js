@@ -138,15 +138,37 @@ const App = () => {
       )}
 
       {/* Exibe os dados obtidos da API ViaCEP */}
-      {data && data.map((item, index) => (
-  <View key={index} style={{ marginBottom: 10 }}>
-    <Text>CEP: {item.cep}</Text>
-    <Text>Logradouro: {item.logradouro}</Text>
-    <Text>Bairro: {item.bairro}</Text>
-    <Text>Cidade: {item.localidade}</Text>
-    <Text>UF: {item.uf}</Text>
+     {data && (
+  <View style={{ marginTop: 20 }}>
+    <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>
+      Resultados encontrados:
+    </Text>
+    {data.map((item, index) => (
+      <View
+        key={index}
+        style={{marginBottom: 10,padding: 10,borderWidth: 1,borderRadius: 5,backgroundColor: '#F8F9F9'
+        }}
+      >
+        <Text onPress={() => preencherCampos(item)} style={styles.dadoClicavel}>
+          CEP: {item.cep}
+        </Text>
+        <Text onPress={() => preencherCampos(item)} style={styles.dadoClicavel}>
+          Logradouro: {item.logradouro}
+        </Text>
+        <Text onPress={() => preencherCampos(item)} style={styles.dadoClicavel}>
+          Bairro: {item.bairro}
+        </Text>
+        <Text onPress={() => preencherCampos(item)} style={styles.dadoClicavel}>
+          Cidade: {item.localidade}
+        </Text>
+        <Text onPress={() => preencherCampos(item)} style={styles.dadoClicavel}>
+          UF: {item.uf}
+        </Text>
+      </View>
+    ))}
   </View>
-))}
+)}
+
 
       {/* Exibe os dados das pesquisas anteriores (histórico) */}
       {historico.length > 0 && (
