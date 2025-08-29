@@ -2,15 +2,23 @@ import React from 'react';
 import {Button} from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 export const salvandoDados = async (novaPesquisa) => {
   try {
     const historicoAtual = await AsyncStorage.getItem('@historico_pesquisas');
     const historico = historicoAtual ? JSON.parse(historicoAtual) : [];
 
-    historico.push(novaPesquisa); // adiciona nova pesquisa ao histórico
+    const novasEntradas = Array.isArray(novaPesquisa) ? novaPesquisa : [novaPesquisa];
 
-    await AsyncStorage.setItem('@historico_pesquisas', JSON.stringify(historico));
-    console.log('Histórico atualizado!');
+    // Filtra apenas os itens que ainda não estão no histórico
+    const entradasFiltradas = novasEntradas.filter(nova =>
+      !historico.some(item => item.cep === nova.cep)
+    );
+
+    const novoHistorico = [...historico, ...entradasFiltradas];
+
+    await AsyncStorage.setItem('@historico_pesquisas', JSON.stringify(novoHistorico));
+    console.log('Histórico atualizado sem duplicatas:', novoHistorico);
   } catch (e) {
     console.error('Erro ao salvar no histórico:', e);
   }
@@ -21,6 +29,7 @@ export const VerHistorico = ({
   setError,
   setBotao
 }) => {
+  
   const verHistorico = async () => {
   try {
     const jsonValue = await AsyncStorage.getItem('@historico_pesquisas');
@@ -43,7 +52,7 @@ export const VerHistorico = ({
 }
 
 return (
-   <Button title="Ver Histórico" color="#922B21" onPress={verHistorico} />
+   <Button title="Ver Histórico" color="#922B21"onPress={verHistorico} />
   )
 
 };
